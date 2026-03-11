@@ -23,9 +23,9 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Database (Railway injects DATABASE_URL from PostgreSQL service)
-    DATABASE_URL: str = None
-    POSTGRES_URL: str = None
-    POSTGRES_DATABASE_URL: str = None
+    DATABASE_URL: str | None = None
+    POSTGRES_URL: str | None = None
+    POSTGRES_DATABASE_URL: str | None = None
     DEFAULT_DATABASE_URL: str = "postgresql+psycopg://postgres:postgres@localhost:5432/fairshare"
 
     # Redis (Railway injects REDIS_URL from Redis service)
