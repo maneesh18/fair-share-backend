@@ -23,7 +23,10 @@ class Settings(BaseSettings):
     PORT: int = 8000
 
     # Database (Railway injects DATABASE_URL from PostgreSQL service)
-    DATABASE_URL: str = "postgresql+psycopg://postgres:postgres@localhost:5432/fairshare"
+    DATABASE_URL: str = None
+    POSTGRES_URL: str = None
+    POSTGRES_DATABASE_URL: str = None
+    DEFAULT_DATABASE_URL: str = "postgresql+psycopg://postgres:postgres@localhost:5432/fairshare"
 
     # Redis (Railway injects REDIS_URL from Redis service)
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -38,7 +41,9 @@ class Settings(BaseSettings):
 
     @property
     def database_url(self) -> str:
-        return _normalize_database_url(self.DATABASE_URL)
+        # Try different Railway environment variable names
+        url = self.DATABASE_URL or self.POSTGRES_URL or self.POSTGRES_DATABASE_URL or self.DEFAULT_DATABASE_URL
+        return _normalize_database_url(url)
 
     class Config:
         env_file = ".env"
