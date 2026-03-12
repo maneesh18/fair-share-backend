@@ -22,10 +22,10 @@ class Settings(BaseSettings):
     # Railway sets PORT
     PORT: int = 8000
 
-    # Database (Railway injects DATABASE_URL from PostgreSQL service)
+    # Database (Render sets DATABASE_URL automatically from PostgreSQL service)
     DATABASE_URL: str = "postgresql+psycopg://postgres:postgres@localhost:5432/fairshare"
 
-    # Redis (Railway injects REDIS_URL from Redis service)
+    # Redis (Render sets REDIS_URL automatically from Redis service)
     REDIS_URL: str = "redis://localhost:6379/0"
 
     # CORS (set CORS_ORIGINS in Railway, comma-separated, e.g. https://yourapp.vercel.app)
