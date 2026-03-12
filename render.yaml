@@ -1,0 +1,51 @@
+services:
+  # Main FastAPI Web Service
+  - type: web
+    name: fairshare-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    
+    # Auto-deploy configuration
+    autoDeploy: yes
+    
+    # Environment groups for easy management
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: PORT
+        value: 8000
+
+  # PostgreSQL Database
+  - type: pserv
+    name: fairshare-db
+    env: postgres
+    plan: free
+    
+    # Database configuration
+    envVars:
+      - key: POSTGRES_DB
+        value: fairshare
+      - key: POSTGRES_USER
+        value: fairshare_user
+      - key: POSTGRES_PASSWORD
+        generateValue: true
+        sync: false
+
+  # Redis Cache
+  - type: pserv
+    name: fairshare-redis
+    env: redis
+    plan: free
+
+# Environment variables that will be available to all services
+environmentGroups:
+  - name: production
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://your-frontend-domain.com
